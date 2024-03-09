@@ -1,8 +1,8 @@
 const Themes = {
 
 themes : [
-	['Light', 'https://utils.effofecks.repl.co/themes/theme_light.css'],
-	['Dark', 'https://utils.effofecks.repl.co/themes/theme_dark.css']
+	['Light', 'https://brandenleong1.github.io/utils/themes/theme_light.css'],
+	['Dark', 'https://brandenleong1.github.io/utils/themes/theme_dark.css']
 ],
 
 createThemeCSS : function(id = 0) {
