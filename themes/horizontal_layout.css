@@ -264,6 +264,13 @@ input[type="color"]::-webkit-color-swatch {
 	background-clip: padding-box;
 }
 
+.popup .content-container-vertical {
+	display: flex;
+	min-width: auto;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
 #toast-popup, #hover-popup {
 	position: fixed;
 	border-radius: 5px;
