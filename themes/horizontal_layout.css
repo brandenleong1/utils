@@ -95,6 +95,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .button-positive {
 	width: fit-content;
+	height: fit-content;
 	border-radius: 5px;
 	padding: 0 10px;
 	color: var(--color_btn);
@@ -109,6 +110,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .button-positive-2 {
 	width: fit-content;
+	height: fit-content;
 	border-radius: 5px;
 	padding: 10px;
 	color: var(--color_btn);
@@ -134,9 +136,8 @@ input[type="color"]::-webkit-color-swatch {
 
 .button-negative {
 	width: fit-content;
+	height: fit-content;
 	border-radius: 5px;
-	width: max-content;
-	height: max-content;
 	padding: 10px;
 	color: var(--color_bg);
 	background-color: var(--color_btn);
