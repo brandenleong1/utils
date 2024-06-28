@@ -331,6 +331,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 *::-webkit-scrollbar {
+	height: 12px;
     width: 12px;
 }
 
