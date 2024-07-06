@@ -205,8 +205,14 @@ input[type="color"]::-webkit-color-swatch {
 	width: 100%;
 }
 
-.content-break {
+.content-break-vertical {
+	width: 100%;
 	height: 64px;
+}
+
+.content-break-horizontal {
+	height: 100%;
+	width: 64px;
 }
 
 /* Don't use this. Use [.popup] below. */
