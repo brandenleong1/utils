@@ -12,6 +12,7 @@ body {
 	margin: 20px;
 	min-width: calc(100vw - 40px);
 	overflow-x: auto;
+	width: fit-content;
 	height: calc(100vh - 40px - 12px);
 	background-color: var(--color_bg);
 	color: var(--color_txt);
