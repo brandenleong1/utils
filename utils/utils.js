@@ -66,14 +66,14 @@ saveFile : function(text, fileName) {
 
 binarySearchIdx : function(list, item, compareFn = (a, b) => a - b) {
 	let left = 0, right = list.length - 1;
-	
+
 	while (left <= right) {
 		let mid = Math.floor((left + right) / 2);
 		let compRes = compareFn(list[mid], item);
 		if (isNaN(compRes)) {
 			break;
 		}
-		
+
 		if (compRes > 0) {
 			right = mid - 1;
 		} else if (compRes < 0) {
@@ -115,7 +115,7 @@ binaryInsert : function(list, item, compareFn = (a, b) => a - b) {
 deepCopyArray : function(arr) {
 	return arr.map(e => Array.isArray(e) ? Utils.deepCopyArray(e) : e);
 },
-	
+
 shuffleArray : function(arr) {
 	let arrN = Utils.deepCopyArray(arr);
 	for (let i = arrN.length - 1; i > 0; i--) {
@@ -125,6 +125,10 @@ shuffleArray : function(arr) {
 		arrN[j] = t;
 	}
 	return arrN;
+},
+
+transpose2DArray: function(arr) {
+	return arr[0].map((_, i) => arr.map((e) => e[i]));
 }
 
 };
