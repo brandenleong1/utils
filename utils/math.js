@@ -67,8 +67,7 @@ class Complex {
 		let a = new Complex(1);
 		for (let z of complexes) {
 			if (z instanceof Complex) {
-				a.Re = a.Re * z.Re - a.Im * z.Im;
-				a.Im = a.Im * z.Re + a.Re * z.Im;
+				[a.Re, a.Im] = [a.Re * z.Re - a.Im * z.Im, a.Im * z.Re + a.Re * z.Im];
 			} else if (typeof(z) == 'number') {
 				a.Re *= z;
 				a.Im *= z;
