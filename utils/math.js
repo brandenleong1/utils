@@ -52,8 +52,12 @@ class Complex {
 	static add(...complexes) {
 		let a = new Complex();
 		for (let z of complexes) {
-			a.Re += z.Re;
-			a.Im += z.Im;
+			if (z instanceof Complex) {
+				a.Re += z.Re;
+				a.Im += z.Im;
+			} else if (typeof(z) == 'number') {
+				a.Re += z;
+			}
 		}
 		return a;
 	}
@@ -62,8 +66,13 @@ class Complex {
 	static multiply(...complexes) {
 		let a = new Complex(1);
 		for (let z of complexes) {
-			a.Re = a.Re * z.Re - a.Im * z.Im;
-			a.Im = a.Im * z.Re + a.Re * z.Im;
+			if (z instanceof Complex) {
+				a.Re = a.Re * z.Re - a.Im * z.Im;
+				a.Im = a.Im * z.Re + a.Re * z.Im;
+			} else if (typeof(z) == 'number') {
+				a.Re *= z;
+				a.Im *= z;
+			}
 		}
 		return a;
 	}
@@ -76,6 +85,15 @@ class Complex {
 		let t = Math.atan2(this.Im, this.Re);
 		if (t < 0) t += 2 * Math.PI;
 		return t;
+	}
+
+	get conjugate() {
+		return new Complex(this.Re, -this.Im);
+	}
+
+	get multInverse() {
+		let m = this.Re * this.Re + this.Im * this.Im;
+		return new Complex(this.Re / m, -this.Im / m);
 	}
 }
 
