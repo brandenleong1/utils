@@ -91,6 +91,10 @@ class Complex {
 		return new Complex(this.Re, -this.Im);
 	}
 
+	get addInverse() {
+		return new Complex(-this.Re, -this.Im);
+	}
+
 	get multInverse() {
 		let m = this.Re * this.Re + this.Im * this.Im;
 		return new Complex(this.Re / m, -this.Im / m);
