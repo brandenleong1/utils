@@ -25,7 +25,7 @@ storageAvailable : function(type) {
     }
 },
 
-// e: any, ...class_constructors: [string]
+// e: any, ...class_constructors: [Class]
 isClass : function(e, ...class_constructors) {
 	if (typeof e == 'object') {
 		for (let class_constructor of class_constructors) {
@@ -64,6 +64,7 @@ saveFile : function(text, fileName) {
 	}
 },
 
+// list: Array[T], item: T, compareFn: function(a: T, b: T): number
 binarySearchIdx : function(list, item, compareFn = (a, b) => a - b) {
 	let left = 0, right = list.length - 1;
 
@@ -90,6 +91,7 @@ binarySearchIdx : function(list, item, compareFn = (a, b) => a - b) {
 	return -1;
 },
 
+// list: Array[T], item: T, compareFn: function(a: T, b: T): number
 binaryInsert : function(list, item, compareFn = (a, b) => a - b) {
 	let left = 0, right = list.length;
 	let mid = 0;
@@ -112,10 +114,12 @@ binaryInsert : function(list, item, compareFn = (a, b) => a - b) {
 	return mid;
 },
 
+// arr: Array[any]
 deepCopyArray : function(arr) {
 	return arr.map(e => Array.isArray(e) ? Utils.deepCopyArray(e) : e);
 },
 
+// arr: Array[any]
 shuffleArray : function(arr) {
 	let arrN = Utils.deepCopyArray(arr);
 	for (let i = arrN.length - 1; i > 0; i--) {
@@ -127,8 +131,14 @@ shuffleArray : function(arr) {
 	return arrN;
 },
 
+// arr: Array[Array[any]]
 transpose2DArray: function(arr) {
 	return arr[0].map((_, i) => arr.map((e) => e[i]));
+},
+
+// a: number, b: number, t: number
+lerp: function(a, b, t) {
+	return a + t * (b - a);
 }
 
 };
