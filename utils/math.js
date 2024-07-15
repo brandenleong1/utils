@@ -57,6 +57,8 @@ class Complex {
 				a.Im += z.Im;
 			} else if (typeof(z) == 'number') {
 				a.Re += z;
+			} else {
+				throw new TypeError('Argument must be of type Complex or number');
 			}
 		}
 		return a;
@@ -71,6 +73,8 @@ class Complex {
 			} else if (typeof(z) == 'number') {
 				a.Re *= z;
 				a.Im *= z;
+			} else {
+				throw new TypeError('Argument must be of type Complex or number');
 			}
 		}
 		return a;
