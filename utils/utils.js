@@ -124,9 +124,7 @@ shuffleArray : function(arr) {
 	let arrN = Utils.deepCopyArray(arr);
 	for (let i = arrN.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		const t = arrN[i];
-		arrN[i] = arrN[j];
-		arrN[j] = t;
+		[arrN[i], arrN[j]] = [arrN[j], arrN[i]];
 	}
 	return arrN;
 },
