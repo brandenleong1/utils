@@ -129,6 +129,24 @@ shuffleArray : function(arr) {
 	return arrN;
 },
 
+// arr: Array[any]
+arrayChoice : function(arr, n = 1, replace = true) {
+	if (!replace && n > arr.length) {
+		throw new RangeError('[n] must not be greater than [arr.length] if [replace = false]');
+	}
+
+	let idx = new Array(arr.length).fill(0).map((_, i) => i);
+
+	let a = [];
+	for (let i = 0; i < n; i++) {
+		let r = Math.floor(Math.random() * idx.length);
+		a.push(arr[idx[r]]);
+		if (!replace) idx.splice(r, 0);
+	}
+
+	return a;
+},
+
 // arr: Array[Array[any]]
 transpose2DArray: function(arr) {
 	return arr[0].map((_, i) => arr.map((e) => e[i]));
