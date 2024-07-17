@@ -129,7 +129,7 @@ shuffleArray : function(arr) {
 	return arrN;
 },
 
-// arr: Array[any]
+// arr: Array[any], n: number, replace: bool
 arrayChoice : function(arr, n = 1, replace = true) {
 	if (!replace && n > arr.length) {
 		throw new RangeError('[n] must not be greater than [arr.length] if [replace = false]');
