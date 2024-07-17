@@ -243,7 +243,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .content-caption {
-	padding: 0 20px;
+	padding: 0 20px 10px;
 	text-align: justify;
 	line-height: normal;
 	font-size: small;
