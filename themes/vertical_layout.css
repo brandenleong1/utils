@@ -216,6 +216,14 @@ input[type="color"]::-webkit-color-swatch {
 	text-align: justify;
 }
 
+.content-caption {
+	padding: 0 20px;
+	text-align: justify;
+	line-height: normal;
+	font-size: small;
+	align-self: center;
+}
+
 .content-image img {
 	max-width: 100%;
 }
