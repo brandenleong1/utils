@@ -129,26 +129,6 @@ shuffleArray : function(arr) {
 	return arrN;
 },
 
-// arr: Array[any], n: number, replace: bool, returnIndices: bool
-arrayChoice : function(arr, n = 1, replace = true, returnIndices = false) {
-	if (!replace && n > arr.length) {
-		throw new RangeError('[n] must not be greater than [arr.length] if [replace = false]');
-	}
-
-	let idx = new Array(arr.length).fill(0).map((_, i) => i);
-
-	let a = [], idxs = [];
-	for (let i = 0; i < n; i++) {
-		let r = Math.floor(Math.random() * idx.length);
-		a.push(arr[idx[r]]);
-		idxs.push(idx[r]);
-		if (!replace) idx.splice(r, 0);
-	}
-
-	if (returnIndices) return [a, idxs];
-	else return a;
-},
-
 // arr: Array[Array[any]]
 transpose2DArray: function(arr) {
 	return arr[0].map((_, i) => arr.map((e) => e[i]));
