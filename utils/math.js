@@ -110,7 +110,7 @@ const UP = new Vector3(0, 1, 0);
 const LEFT = new Vector3(-1, 0, 0);
 const RIGHT = new Vector3(1, 0, 0);
 
-const Math = {
+const MathUtils = {
 
 // a: Array[any], b: Array[any]
 vectorDistance : function(a, b) {
