@@ -109,3 +109,22 @@ const DOWN = new Vector3(0, -1, 0);
 const UP = new Vector3(0, 1, 0);
 const LEFT = new Vector3(-1, 0, 0);
 const RIGHT = new Vector3(1, 0, 0);
+
+const Math = {
+
+// a: Array[any], b: Array[any]
+vectorDistance : function(a, b) {
+	if (a.length != b.length) {
+		throw RangeError('[a] and [b] must be the same length');
+	}
+
+	let s = 0;
+	for (let i = 0; i < a.length; i++) {
+		let d = a[i] - b[i];
+		s += d * d;
+	}
+
+	return Math.sqrt(s);
+}
+
+}
