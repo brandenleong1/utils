@@ -17,7 +17,7 @@ randHSL : function() {
 },
 
 whiteOrBlackText : function(rgbBG) {
-	let rgb = rgbBG.split(' ').map(e => parseInt(e.replace(/\D/g, ''), 10));
+	let rgb = rgbBG.split(' ').map(e => parseFloat(e.replace(/\D/g, ''), 10));
 	if ((rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) > 186) {
 		return '#000000';
 	} else {
