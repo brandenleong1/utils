@@ -112,7 +112,16 @@ const RIGHT = new Vector3(1, 0, 0);
 
 const MathUtils = {
 
-// a: Array[any], b: Array[any]
+// numerator: int, denominator: int
+reduceFraction : function(numerator, denominator){
+	var gcd = function gcd(a, b){
+		return b ? gcd(b, a % b) : a;
+	};
+	gcd = gcd(numerator, denominator);
+	return [numerator / gcd, denominator / gcd];
+},
+
+// a: Array[number], b: Array[number]
 vectorDistance : function(a, b) {
 	if (a.length != b.length) {
 		throw RangeError('[a] and [b] must be the same length');
