@@ -120,6 +120,14 @@ input[type="range"]::-webkit-slider-thumb {
 	border-radius: 6px;
 }
 
+input[type="number"] {
+	border: none;
+	color: var(--color_txt);
+	background-color: rgba(0, 0, 0, 0);
+	font-family: 'Proxima Nova';
+	font-size: 1em;
+}
+
 .button-positive {
 	width: fit-content;
 	height: fit-content;
@@ -356,7 +364,6 @@ input[type="range"]::-webkit-slider-thumb {
 	display: flex;
 	flex-direction: row-reverse;
 	column-gap: 20px;
-	backdrop-filter: blur(10px);
 }
 
 #bottom-bar > * {
