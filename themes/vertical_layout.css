@@ -337,7 +337,8 @@ input[type="number"] {
 	height: 30px;
 	width: calc(100% - 40px);
 	display: flex;
-	flex-direction: row-reverse;
+	flex-direction: row;
+	justify-content: flex-end;
 	align-items: center;
 	column-gap: 20px;
 	pointer-events: none;
