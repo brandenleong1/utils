@@ -361,12 +361,16 @@ input[type="number"] {
 	bottom: 20px;
 	right: 20px;
 	height: 30px;
+	width: calc(100% - 40px);
 	display: flex;
 	flex-direction: row-reverse;
+	align-items: center;
 	column-gap: 20px;
+	pointer-events: none;
 }
 
 #bottom-bar > * {
+	pointer-events: auto;
 	user-select: none;
 	filter: var(--color_svg);
 	height: 100%;

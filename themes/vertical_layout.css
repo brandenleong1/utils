@@ -335,9 +335,12 @@ input[type="number"] {
 	bottom: 20px;
 	right: 20px;
 	height: 30px;
+	width: calc(100% - 40px);
 	display: flex;
 	flex-direction: row-reverse;
+	align-items: center;
 	column-gap: 20px;
+	pointer-events: none;
 }
 
 #bottom-bar > * {
@@ -347,6 +350,7 @@ input[type="number"] {
 }
 
 #bottom-bar > *:hover {
+	pointer-events: auto;
 	filter: var(--color_svg_hover);
 	cursor: pointer;
 }
