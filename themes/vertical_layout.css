@@ -345,13 +345,13 @@ input[type="number"] {
 }
 
 #bottom-bar > * {
+	pointer-events: auto;
 	user-select: none;
 	filter: var(--color_svg);
 	height: 100%;
 }
 
 #bottom-bar > *:hover {
-	pointer-events: auto;
 	filter: var(--color_svg_hover);
 	cursor: pointer;
 }
