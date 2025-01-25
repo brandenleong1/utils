@@ -60,6 +60,7 @@ table.no-border, table.no-border th, table.no-border td {
 }
 
 input[type=text], textarea {
+	background-color: rgba(0, 0, 0, 0);
 	height: 1.5em;
 	line-height: 1.2em;
 	width: calc(100% - 12px);
