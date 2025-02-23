@@ -54,7 +54,7 @@ saveFile : function(text, fileName) {
 		let a = document.createElement('a');
 		let url = URL.createObjectURL(file);
 		a.href = url;
-		document.body.appendChild(a);
+		document.body.append(a);
 		a.setAttribute('download', fileName);
 		a.click();
 		setTimeout(function() {

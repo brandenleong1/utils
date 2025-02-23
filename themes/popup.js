@@ -3,11 +3,11 @@
 window.addEventListener('load', function() {
 	for (let e of document.querySelectorAll('.popup')) {
 		var bounding = document.createElement('div');
-		
+
 		e.parentNode.replaceChild(bounding, e);
-		bounding.appendChild(e);
+		bounding.append(e);
 		bounding.classList.add('popup-bounding');
-		
+
 		Animate.remove(bounding);
 	}
 });
@@ -21,7 +21,7 @@ popup : async function(e, fallingEdgeFunc = function() {}) {
 			e1.parentNode.onclick = null;
 			e1.parentNode.style.pointerEvents = 'auto';
 		});
-		
+
 		await Animate.animateGroup(Array.from(document.querySelectorAll('.popup')).filter(e1 => e1.parentNode.style.opacity != 0).map(e1 => [[e1.parentNode, Animate.fadeOut, {}], [e1, Animate.fadeOut, {shiftTo: UP}]]).flat());
 
 		await Animate.animateGroup([[e.parentNode, Animate.fadeIn, {}], [e, Animate.fadeIn, {shiftFrom: UP}]]);
@@ -29,7 +29,7 @@ popup : async function(e, fallingEdgeFunc = function() {}) {
 		Array.from(document.querySelectorAll('.popup')).filter(e1 => e1 != e).forEach(e1 => {
 			e1.parentNode.style.pointerEvents = 'none';
 		});
-		
+
 		e.parentNode.onclick = async function(event) {
 			if (event.target == e.parentNode) {
 				e.parentNode.onclick = null;
@@ -43,23 +43,23 @@ popup : async function(e, fallingEdgeFunc = function() {}) {
 
 toastPopup : async function(text, direction = Vector3.add(DOWN, LEFT), duration = 1000) {
 	if (document.querySelector('#toast-popup')) document.querySelector('#toast-popup').remove();
-	
+
 	let toast = document.createElement('div');
 	toast.id = 'toast-popup';
 	toast.innerText = text;
-	document.body.appendChild(toast);
+	document.body.append(toast);
 
 	function setToastXY() {
 		let [toast_width, toast_height] = [toast.getBoundingClientRect().width, toast.getBoundingClientRect().height];
 		let [new_x, new_y] = [(window.visualViewport.width / 2 - 20) * (1 + direction.x), (window.visualViewport.height / 2 - 20) * (1 - direction.y)];
-		
+
 		toast.style.top = new_y + 20 - (toast_height / 2 * (1 - direction.y)) + 'px';
 		toast.style.left = new_x + 20 - (toast_width / 2 * (1 + direction.x)) + 'px';
 	}
 	setToastXY();
-	
+
 	window.addEventListener('resize', setToastXY);
-	
+
 	await Animate.remove(toast);
 	await Animate.fadeIn(toast);
 	await Animate.wait(duration);
@@ -75,7 +75,7 @@ hoverHelperFuncs : {
 			let hover = document.createElement('div');
 			hover.id = 'hover-popup';
 			hover.innerText = e.target.hoverText;
-			document.body.appendChild(hover);
+			document.body.append(hover);
 			hover.style.top = e.clientY + 5 + 'px';
 			hover.style.left = e.clientX + 5 + 'px';
 		} else {

@@ -11,7 +11,7 @@ createThemeCSS : function(id = 0) {
 	link.href = Themes.themes[id][1];
 	link.type = 'text/css';
 	link.rel = 'stylesheet';
-	document.head.appendChild(link);
+	document.head.append(link);
 }
 
 }
