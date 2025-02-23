@@ -7,6 +7,7 @@ initDeck : function() {
 	return new Array(52).fill(0).map((e, i) => i);
 },
 
+// card: int
 card2Str : function(card) {
 	if (card == 52) return '-★';
 	if (card == 53) return '-☆';
@@ -17,6 +18,7 @@ card2Str : function(card) {
 	return rank + suit;
 },
 
+// card: int
 card2Unicode : function(card) {
 	if (card == 52) return String.fromCodePoint(0x1f0bf);
 	if (card == 53) return String.fromCodePoint(0x1f0df);
