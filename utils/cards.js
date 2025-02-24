@@ -28,7 +28,7 @@ card2Unicode : function(card) {
 	let rank = card % 13;
 	let suit = Math.floor(card / 13);
 
-	if (rank >= 12) rank++;
+	if (rank >= 11) rank++;
 
 	return String.fromCodePoint(blockStart + rank + (suit * 16));
 }
