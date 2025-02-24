@@ -12,8 +12,8 @@ card2Str : function(card) {
 	if (card == 52) return '-★';
 	if (card == 53) return '-☆';
 
-	let rank = card2Rank[card % 13];
-	let suit = card2Suit[Math.floor(card / 13)];
+	let rank = Cards.card2Rank[card % 13];
+	let suit = Cards.card2Suit[Math.floor(card / 13)];
 
 	return rank + suit;
 },
