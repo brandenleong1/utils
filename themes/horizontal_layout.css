@@ -330,6 +330,8 @@ input[type="number"] {
 .content-line-centered::before, .content-line-centered::after {
 	content: '';
 	flex-grow: 1;
+	background-color: var(--color_txt);
+    height: 2px;
 }
 
 /* Don't use this. Use [.popup] below. */
