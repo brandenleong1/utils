@@ -320,6 +320,18 @@ input[type="number"] {
 	background-color: black;
 }
 
+.content-line-centered {
+	width: 100%;
+	display: flex;
+	column-gap: 5px;
+	align-items: center;
+}
+
+.content-line-centered::before, .content-line-centered::after {
+	content: '';
+	flex-grow: 1;
+}
+
 /* Don't use this. Use [.popup] below. */
 .popup-bounding {
 	display: flex;
