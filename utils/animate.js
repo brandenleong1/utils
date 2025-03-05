@@ -49,7 +49,7 @@ fadeIn : async function(e, params = {}) {
 	let shift = Vector3.add(params.shiftTo, params.shiftFrom.scale(-1));
 	let scale = params.scaleTo - params.scaleFrom;
 	let rotate = params.rotateTo - params.rotateFrom;
-	
+
 	for (let i = 0; i <= params.runTime; i++) {
 		e.style.transform =
 			'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px) ' + 
@@ -63,12 +63,12 @@ fadeIn : async function(e, params = {}) {
 // e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
 fadeOut : async function(e, params = {}) {
 	Animate.fillDefault(params);
-	
+
 	e.opacity = e.opacity || (e.style.opacity || 1);
 	let shift = Vector3.add(params.shiftTo, params.shiftFrom.scale(-1));
 	let scale = params.scaleTo - params.scaleFrom;
 	let rotate = params.rotateTo - params.rotateFrom;
-	
+
 	for (let i = 0; i <= params.runTime; i++) {
 		e.style.transform =
 			'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px)' + 
@@ -82,12 +82,12 @@ fadeOut : async function(e, params = {}) {
 // e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
 transform : async function(e, params = {}) {
 	Animate.fillDefault(params);
-	
+
 	let shift = Vector3.add(params.shiftTo, params.shiftFrom.scale(-1));
 	let scale = params.scaleTo - params.scaleFrom;
 	let rotate = params.rotateTo - params.rotateFrom;
 	e.style.transformOrigin = 'calc(' + (params.center.x * 64) + 'px + 50%) calc(' + (-params.center.y * 64) + 'px + 50%)';
-	
+
 	for (let i = 0; i <= params.runTime; i++) {
 		e.style.transform =
 			'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px)' + 
@@ -121,7 +121,7 @@ animateGroupByIndex : async function (group = Array.from(document.querySelectorA
 		let animArr;
 		let minVal, maxVal;
 		let noIndexArr = [];
-		
+
 		for (let e of group) {
 			let indices = e.dataset.animIndex ? e.dataset.animIndex.split(',').map(e => eval(e)) : [];
 			if (index < indices.length && indices[index] != null) {
@@ -132,11 +132,11 @@ animateGroupByIndex : async function (group = Array.from(document.querySelectorA
 				noIndexArr.push(e);
 			}
 		}
-		
+
 		if (minVal != null) {
 			maxVal -= minVal;
 			animArr = Array.from({length: maxVal + 1}, () => []);
-			
+
 			for (let e of group) {
 				let indices = e.dataset.animIndex ? e.dataset.animIndex.split(',').map(e => eval(e)) : [];
 				if (index < indices.length) {
@@ -145,7 +145,7 @@ animateGroupByIndex : async function (group = Array.from(document.querySelectorA
 				}
 			}
 			if (noIndexArr.length) animArr.push(noIndexArr);
-			
+
 			for (let i in animArr) {
 				let temp = splitAnimationGroup(animArr[i], index + 1);
 				if (temp) animArr[i] = temp;

@@ -31,6 +31,18 @@ card2Unicode : function(card) {
 	if (rank >= 11) rank++;
 
 	return String.fromCodePoint(blockStart + rank + (suit * 16));
+},
+
+// card: int, arr: Array[int]
+filterByRank : function(card, arr) {
+	if (card >= 52) return arr.filter(e => e >= 52);
+	return arr.filter(e => e < 52 && (e % 13 == card % 13));
+},
+
+// card: int, arr: Array[int]
+filterBySuit : function(card, arr) {
+	if (card >= 52) return arr.filter(e => e >= 52);
+	return arr.filter(e => e < 52 && (Math.floor(e / 13) == Math.floor(card / 13)));
 }
 
 }
