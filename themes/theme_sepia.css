@@ -1,10 +1,10 @@
 /* Shades are 6 away from each other (https://coolors.co/) */
 :root {
-	--color_bg: #121212;
-	--color_bg2: #292929;
-	--color_popup_bg: rgba(245, 245, 245, 0.3);
-	--color_txt: #f5f5f5;
-	--color_txt2: #c2c2c2;
+	--color_bg: #583101;
+	--color_bg2: #6F4518;
+	--color_popup_bg: rgba(245, 245, 245, 0.4);
+	--color_txt: #f3d5b5;
+	--color_txt2: #bc8a5f;
 
 	--color_link: #f679a7;
 	--color_link_hover: #e5105e;
@@ -15,9 +15,9 @@
 	--color_btn2: #8CFC88;
 	--color_btn2_hover: #18F910;
 
-	--color_scrollbar_track_bg: #f5f5f5;
+	--color_scrollbar_track_bg: #ffedd8;
 	--color_scrollbar_thumb_bg: #555555;
-	--color_scrollbar_thumb_bg_hover: #8f8f8f;
+	--color_scrollbar_thumb_bg_hover: #c7b39c;
 
 	/* By default, svg's are black */
 	--color_svg: invert(1);

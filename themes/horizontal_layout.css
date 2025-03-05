@@ -71,6 +71,7 @@ input[type=text], textarea {
 	/* transition: all 0.5s, box-shadow 0.5s; */
 	font-family: 'Proxima Nova';
 	letter-spacing: 1px;
+	color: var(--color_txt);
 }
 
 input[type=text]:focus, textarea:focus {
@@ -267,7 +268,10 @@ input[type="number"] {
 
 [placeholder]:empty::before {
     content: attr(placeholder);
-    color: var(--color_txt2); 
+}
+
+[placeholder]::placeholder {
+	color: var(--color_txt2);
 }
 
 .content-text {
@@ -310,14 +314,14 @@ input[type="number"] {
 	height: 100%;
 	width: 0.2em;
 	border-radius: 0.1em;
-	background-color: black;
+	background-color: var(--color_txt);
 }
 
 .content-divider-horizontal {
 	width: 100%;
 	height: 0.2em;
 	border-radius: 0.1em;
-	background-color: black;
+	background-color: var(--color_txt);
 }
 
 .content-line-centered {
