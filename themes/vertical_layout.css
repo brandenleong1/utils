@@ -62,7 +62,8 @@ input[type=text], textarea, input[type=number] {
 	border-radius: 2px;
 	font-family: 'Proxima Nova';
 	letter-spacing: 1px;
-	color: var(--color_txt);
+	background-color: var(--color_input);
+	color: var(--color_input_txt);
 }
 
 input[type=text]:focus, textarea:focus, input[type=number]:focus {
