@@ -350,15 +350,16 @@ input[type=range]::-webkit-slider-thumb {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
-	justify-content: center;
 	align-items: center;
 	z-index: 98;
 	background-color: var(--color_bg);
 	padding: 20px;
 	margin: 20px;
+	max-height: calc(100vh - 80px);
 	max-width: calc(100vw - 80px);
 	border-radius: 10px;
 	background-clip: padding-box;
+	overflow-y: auto;
 }
 
 .popup .content-container-vertical {
