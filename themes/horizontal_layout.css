@@ -122,6 +122,14 @@ input[type=range]::-webkit-slider-thumb {
 	border-radius: 6px;
 }
 
+select {
+	font: inherit;
+	font-style: inherit;
+	letter-spacing: inherit;
+	font-size: 0.8em;
+	outline: none;
+}
+
 .button-positive {
 	width: fit-content;
 	height: fit-content;
