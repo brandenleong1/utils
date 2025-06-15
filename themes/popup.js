@@ -12,6 +12,14 @@ window.addEventListener('load', function() {
 	}
 });
 
+document.addEventListener('keydown', function(e) {
+	if (e.key == 'Escape' || e.keyCode == 27) {
+		for (let popup of document.querySelectorAll('.popup')) {
+			if (!popup.contains(document.activeElement)) popup.parentNode.click();
+		}
+	}
+});
+
 const Popup = {
 
 // e: HTMLDivElement (.popup)
