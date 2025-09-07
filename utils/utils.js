@@ -137,6 +137,27 @@ transpose2DArray: function(arr) {
 // a: number, b: number, t: number
 lerp: function(a, b, t) {
 	return a + t * (b - a);
+},
+
+JSONStringify: function(data) {
+	return JSON.stringify(data, function(key, value) {
+		if (typeof value === 'bigint') return value.toString();
+		else return value;
+	});
+},
+
+JSONParse: function(data) {
+	return JSON.parse(data, function(key, value) {
+		if (typeof value === 'bigint' && /^\d+$/.test(value) && value.length > 15) {
+			try {
+				return BigInt(value);
+			} catch (e) {
+				return value;
+			}
+		} else {
+			return value;
+		}
+	});
 }
 
 };
