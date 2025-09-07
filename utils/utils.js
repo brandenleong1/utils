@@ -141,16 +141,16 @@ lerp: function(a, b, t) {
 
 JSONStringify: function(data) {
 	return JSON.stringify(data, function(key, value) {
-		if (typeof value === 'bigint') return value.toString();
+		if (typeof value === 'bigint') return {$bigint: value.toString()};
 		else return value;
 	});
 },
 
 JSONParse: function(data) {
 	return JSON.parse(data, function(key, value) {
-		if (typeof value === 'bigint' && /^\d+$/.test(value) && value.length > 15) {
+		if (typeof value === 'object' && value !== null && typeof value.$bigint === 'string') {
 			try {
-				return BigInt(value);
+				return BigInt(value.$bigint);
 			} catch (e) {
 				return value;
 			}
