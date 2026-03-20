@@ -1,9 +1,10 @@
 const Themes = {
 
 themes : [
-	['Light', 'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_light.css'],
-	['Dark', 'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_dark.css'],
-	['Sepia', 'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_sepia.css']
+	['Light',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_light.css'],
+	['Dark',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_dark.css'],
+	['Dark High Contrast',	'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_dark_high_contrast.css'],
+	['Sepia',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_sepia.css']
 ],
 
 createThemeCSS : function(id = 0) {

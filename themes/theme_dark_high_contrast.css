@@ -1,0 +1,31 @@
+:root {
+	--color_bg: #000000;
+	--color_bg2: #0c0c0c;
+	--color_popup_bg: rgba(0, 0, 0, 0.9);
+	--color_txt: #ffffff;
+	--color_txt2: #d4d4d4;
+
+	--color_link: #c586c0;
+	--color_link_hover: #d7a9d4;
+
+	--color_btn: #6fc3df;
+	--color_btn_hover: #9ed5e5;
+
+	--color_btn2: #f38518;
+	--color_btn2_hover: #f5a85c;
+
+	--color_input: #000000;
+	--color_input_txt: #ffffff;
+
+	--color_scrollbar_track_bg: var(--color_bg);
+	--color_scrollbar_thumb_bg: var(--color_btn);
+	--color_scrollbar_thumb_bg_hover: var(--color_btn_hover);
+
+	/* By default, svg's are black */
+	--color_svg: invert(1);
+	--color_svg_hover: invert(0.7);
+
+	--color_toast_bg: rgba(0, 0, 0, 0.95);
+	--color_toast_border: var(--color_btn);
+	--color_toast_txt: var(--color_txt);
+}
