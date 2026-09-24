@@ -1,10 +1,10 @@
 const Themes = {
 
 themes : [
-	['Light',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_light.css'],
-	['Dark',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_dark.css'],
-	['Dark High Contrast',	'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_dark_high_contrast.css'],
-	['Sepia',				'https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/theme_sepia.css']
+	['Light',				'theme_light.css'],
+	['Dark',				'theme_dark.css'],
+	['Dark High Contrast',	'theme_dark_high_contrast.css'],
+	['Sepia',				'theme_sepia.css']
 ],
 
 createThemeCSS : function(id = 0) {
@@ -16,4 +16,11 @@ createThemeCSS : function(id = 0) {
 	document.head.append(link);
 }
 
-}
+};
+
+(function() {
+	let src = document.currentScript ? document.currentScript.src : document.baseURI;
+	for (let theme of Themes.themes) {
+		theme[1] = new URL('../themes/' + theme[1], src).href;
+	}
+})();
