@@ -2,23 +2,32 @@
 
 class CancellationToken {
 	constructor() {
-		this.cancelled = false;
-		this.onCancelCallbacks = [];
+		this.controller = new AbortController();
+	}
+
+	get signal() {
+		return this.controller.signal;
+	}
+
+	get cancelled() {
+		return this.signal.aborted;
 	}
 
 	cancel() {
-		if (this.cancelled) return;
-		this.cancelled = true;
-		this.onCancelCallbacks.forEach(callback => callback());
-		this.onCancelCallbacks = [];
+		if (!this.cancelled) {
+			this.controller.abort();
+		}
 	}
 
 	onCancel(callback) {
 		if (this.cancelled) {
 			callback();
-		} else {
-			this.onCancelCallbacks.push(callback);
+			return function() {};
 		}
+
+		const onAbort = () => callback();
+		this.signal.addEventListener('abort', onAbort, {once: true});
+		return () => this.signal.removeEventListener('abort', onAbort);
 	}
 }
 
@@ -38,7 +47,7 @@ const Animate = {
 		scaleFrom: 1, scaleTo: 1,
 		shiftFrom: ORIGIN, shiftTo: ORIGIN,
 		rotateFrom: 0, rotateTo: 0,
-		center: ORIGIN, runTime: 250, rateFunc: RateFuncs.easeInOutCubic,
+		center: ORIGIN, runTime: 1000, rateFunc: RateFuncs.easeInOutCubic,
 		cancelToken: null
 	},
 
@@ -49,15 +58,27 @@ const Animate = {
 	},
 
 	// runTime: number, cancelToken: CancellationToken | null
-	wait: async function(runTime = 500, cancelToken = null) {
-		let step = 10;
-		for (let elapsed = 0; elapsed < runTime; elapsed += step) {
+	wait: function(runTime = 500, cancelToken = null) {
+		return new Promise(resolve => {
 			if (cancelToken?.cancelled) {
-				return true;
+				resolve(true);
+				return;
 			}
-			await Utils.sleep(Math.min(step, runTime - elapsed));
-		}
-		return false;
+
+			let settled = false;
+			let removeCancelListener = null;
+			const timeoutId = setTimeout(() => finish(false), Math.max(0, runTime));
+
+			function finish(cancelled) {
+				if (settled) return;
+				settled = true;
+				clearTimeout(timeoutId);
+				removeCancelListener?.();
+				resolve(cancelled);
+			}
+
+			removeCancelListener = cancelToken?.onCancel?.(() => finish(true));
+		});
 	},
 
 	// e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
@@ -72,8 +93,72 @@ const Animate = {
 		e.style.opacity = 0;
 	},
 
+	// e: HTMLElement, params: {} (see DEFAULT_PARAMS)
+	// updateFunc: function(e: HTMLElement, progress: number, params: {}) -> void
+	run: function(e, params = {}, updateFunc) {
+		Animate.fillDefault(params);
+
+		return new Promise((resolve, reject) => {
+			const duration = Math.max(0, params.runTime);
+			let startTime = null;
+			let frameId = null;
+			let progress = 0;
+			let settled = false;
+			let removeCancelListener = null;
+
+			// cancelled: boolean, progress: number
+			function finish(cancelled, progress) {
+				if (settled) return;
+				settled = true;
+				if (frameId != null) cancelAnimationFrame(frameId);
+				removeCancelListener?.();
+				resolve({cancelled, progress});
+			}
+
+			function fail(error) {
+				if (settled) return;
+				settled = true;
+				if (frameId != null) cancelAnimationFrame(frameId);
+				removeCancelListener?.();
+				reject(error);
+			}
+
+			// timestamp: DOMHighResTimeStamp
+			function step(timestamp) {
+				if (params.cancelToken?.cancelled) {
+					finish(true, progress);
+					return;
+				}
+
+				if (startTime == null) startTime = timestamp;
+				progress = (duration == 0) ? 1 : Math.min((timestamp - startTime) / duration, 1);
+
+				try {
+					updateFunc(e, params.rateFunc(progress), params);
+				} catch (error) {
+					fail(error);
+					return;
+				}
+
+				if (progress >= 1) {
+					finish(false, 1);
+				} else {
+					frameId = requestAnimationFrame(step);
+				}
+			}
+
+			if (params.cancelToken?.cancelled) {
+				finish(true, 0);
+				return;
+			}
+
+			removeCancelListener = params.cancelToken?.onCancel?.(() => finish(true, progress));
+			frameId = requestAnimationFrame(step);
+		});
+	},
+
 	// e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
-	fadeIn: async function(e, params = {}) {
+	fadeIn: function(e, params = {}) {
 		Animate.fillDefault(params);
 
 		e.opacity = e.opacity || (e.style.opacity || 1);
@@ -81,30 +166,17 @@ const Animate = {
 		let scale = params.scaleTo - params.scaleFrom;
 		let rotate = params.rotateTo - params.rotateFrom;
 
-		for (let i = 0; i <= params.runTime; i++) {
-			if (params.cancelToken?.cancelled) {
-				return {
-					cancelled: true,
-					progress: i / params.runTime
-				};
-			}
-
-			e.style.transform =
-				'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px) ' +
-				'scale(' + (params.scaleFrom + scale * params.rateFunc(i / params.runTime)) + ') ' +
-				'rotate(' + (params.rotateFrom + rotate * params.rateFunc(i / params.runTime)) + 'rad)';
-			e.style.opacity = e.opacity * params.rateFunc(i / params.runTime);
-			if (i != params.runTime) await Utils.sleep(1);
-		}
-
-		return {
-			cancelled: false,
-			progress: 1
-		};
+		return Animate.run(e, params, (element, progress) => {
+			element.style.transform =
+				'translate(' + ((params.shiftFrom.x + shift.x * progress) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * progress) * 64) + 'px) ' +
+				'scale(' + (params.scaleFrom + scale * progress) + ') ' +
+				'rotate(' + (params.rotateFrom + rotate * progress) + 'rad)';
+			element.style.opacity = element.opacity * progress;
+		});
 	},
 
 	// e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
-	fadeOut: async function(e, params = {}) {
+	fadeOut: function(e, params = {}) {
 		Animate.fillDefault(params);
 
 		e.opacity = e.opacity || (e.style.opacity || 1);
@@ -112,30 +184,17 @@ const Animate = {
 		let scale = params.scaleTo - params.scaleFrom;
 		let rotate = params.rotateTo - params.rotateFrom;
 
-		for (let i = 0; i <= params.runTime; i++) {
-			if (params.cancelToken?.cancelled) {
-				return {
-					cancelled: true,
-					progress: i / params.runTime
-				};
-			}
-
-			e.style.transform =
-				'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px)' +
-				'scale(' + (params.scaleFrom + scale * params.rateFunc(i / params.runTime)) + ') ' +
-				'rotate(' + (params.rotateFrom + rotate * params.rateFunc(i / params.runTime)) + 'rad)';
-			e.style.opacity = e.opacity * (1 - params.rateFunc(i / params.runTime));
-			if (i != params.runTime) await Utils.sleep(1);
-		}
-
-		return {
-			cancelled: false,
-			progress: 1
-		};
+		return Animate.run(e, params, (element, progress) => {
+			element.style.transform =
+				'translate(' + ((params.shiftFrom.x + shift.x * progress) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * progress) * 64) + 'px)' +
+				'scale(' + (params.scaleFrom + scale * progress) + ') ' +
+				'rotate(' + (params.rotateFrom + rotate * progress) + 'rad)';
+			element.style.opacity = element.opacity * (1 - progress);
+		});
 	},
 
 	// e: HTMLDivElement, params: {} (see DEFAULT_PARAMS)
-	transform: async function(e, params = {}) {
+	transform: function(e, params = {}) {
 		Animate.fillDefault(params);
 
 		let shift = Vector3.add(params.shiftTo, params.shiftFrom.scale(-1));
@@ -143,39 +202,22 @@ const Animate = {
 		let rotate = params.rotateTo - params.rotateFrom;
 		e.style.transformOrigin = 'calc(' + (params.center.x * 64) + 'px + 50%) calc(' + (-params.center.y * 64) + 'px + 50%)';
 
-		for (let i = 0; i <= params.runTime; i++) {
-			if (params.cancelToken?.cancelled) {
-				return {
-					cancelled: true,
-					progress: i / params.runTime
-				};
-			}
-
-			e.style.transform =
-				'translate(' + ((params.shiftFrom.x + shift.x * params.rateFunc(i / params.runTime)) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * params.rateFunc(i / params.runTime)) * 64) + 'px)' +
-				'scale(' + (params.scaleFrom + scale * params.rateFunc(i / params.runTime)) + ') ' +
-				'rotate(' + (params.rotateFrom + rotate * params.rateFunc(i / params.runTime)) + 'rad)';
-			if (i != params.runTime) await Utils.sleep(1);
-		}
-
-		return {
-			cancelled: false,
-			progress: 1
-		};
+		return Animate.run(e, params, (element, progress) => {
+			element.style.transform =
+				'translate(' + ((params.shiftFrom.x + shift.x * progress) * 64) + 'px, ' + (-(params.shiftFrom.y + shift.y * progress) * 64) + 'px)' +
+				'scale(' + (params.scaleFrom + scale * progress) + ') ' +
+				'rotate(' + (params.rotateFrom + rotate * progress) + 'rad)';
+		});
 	},
 
 	// e: HTMLDivElement, params: {anim: function, shift: Vector3, center: Vector3, runTime: number, rateFunc: function, runTimeOffset: number, cancelToken: CancellationToken | null}
 	animate: async function(e, params = {}) {
 		let offset = params.runTimeOffset || 0;
-		let step = 10;
-		for (let elapsed = 0; elapsed < offset; elapsed += step) {
-			if (params.cancelToken?.cancelled) {
-				return {
-					cancelled: true,
-					progress: 0
-				};
-			}
-			await Animate.wait(Math.min(step, offset - elapsed));
+		if (params.cancelToken?.cancelled || (offset > 0 && await Animate.wait(offset, params.cancelToken))) {
+			return {
+				cancelled: true,
+				progress: 0
+			};
 		}
 		return await params.anim(e, params);
 	},
